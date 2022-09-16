@@ -1,8 +1,10 @@
 /* Imports */
 import { getRandomNumber } from './utils.js';
 
+
 /* State */
 // let gameState = 'guess';
+let userGuess = '';
 let totalGuess = 0;
 let correctGuess = 0;
 
@@ -12,9 +14,9 @@ const guess1 = document.getElementById('guess-1');
 const guess2 = document.getElementById('guess-2');
 const guess3 = document.getElementById('guess-3');
 
-const wins = document.getElementById('wins');
-const losses = document.getElementById('losses');
-const total = document.getElementById('total');
+const winsEl = document.getElementById('wins');
+const lossesEl = document.getElementById('losses');
+const totalEl = document.getElementById('total');
 
 const pearl1 = document.getElementById('pearl-1');
 const pearl2 = document.getElementById('pearl-2');
@@ -25,7 +27,10 @@ const shell2 = document.getElementById('shell-2');
 const shell3 = document.getElementById('shell-3');
 
 /* Actions */
-function loadPage() {}
+function loadPage() {
+    displayShells();
+
+}
 
 /* Components */
 
@@ -35,11 +40,13 @@ function loadPage() {}
 // event listeners
 guess1.addEventListener('click', () => {
     getRandomNumber();
+    // totalGuess++;
     const answer = covered[getRandomNumber];
     displayShells(answer, 'shellL');
 
     if (userGuess === 1) {
         pearl1.classList.add('reveal');
+        // correctGuess++;
     }
     else if (userGuess === 2) {
         pearl2.classList.add('reveal');
@@ -47,13 +54,60 @@ guess1.addEventListener('click', () => {
     else {
         pearl3.classList.add('reveal');
     }
+    winsEl.textContent = correctGuess;
+    totalEl.textContent = totalGuess;
+    lossesEl.textContent = totalGuess - correctGuess;
+
 });
 
-function displayShells(userGuess, correctSpot) {
+guess2.addEventListener('click', () => {
+    getRandomNumber();
+    const answer = covered[getRandomNumber];
+    displayShells(answer, 'shellM');
+
+    if (userGuess === 1) {
+        pearl2.classList.add('reveal');
+    }
+    else if (userGuess === 2) {
+        pearl3.classList.add('reveal');
+    }
+    else {
+        pearl1.classList.add('reveal');
+    }
+});
+
+guess3.addEventListener('click', () => {
+    getRandomNumber();
+    const answer = covered[getRandomNumber];
+    displayShells(answer, 'shellR');
+
+    if (userGuess === 1) {
+        pearl3.classList.add('reveal');
+    }
+    else if (userGuess === 2) {
+        pearl1.classList.add('reveal');
+    }
+    else {
+        pearl2.classList.add('reveal');
+    }
+});
+
+function displayShells(userGuess, results) {
     shell1.classList.remove('reveal');
     shell2.classList.remove('reveal');
     shell3.classList.remove('reveal');
     totalGuess++;
+    const correctHidingPlace = document.getElementById('results');
+
+    if (userGuess === results) {
+        correctGuess++;
+        correctHidingPlace.classList.add('reveal');
+    } else if (userGuess === 2) {
+        shell2.classList.add('reveal');
+    }
+    else {
+        shell3.classList.add('reveal');
+    }
 }
 
 /* Run page load code */
