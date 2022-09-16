@@ -3,7 +3,7 @@ import { getRandomNumber } from './utils.js';
 
 
 /* State */
-// let gameState = 'guess';
+let gameState = 'guess';
 let userGuess = '';
 let totalGuess = 0;
 let correctGuess = 0;
@@ -40,9 +40,10 @@ function loadPage() {
 // event listeners
 guess1.addEventListener('click', () => {
     getRandomNumber();
-    // totalGuess++;
     const answer = covered[getRandomNumber];
     displayShells(answer, 'shellL');
+
+    totalGuess++;
 
     if (userGuess === 1) {
         pearl1.classList.add('reveal');
@@ -74,6 +75,9 @@ guess2.addEventListener('click', () => {
     else {
         pearl1.classList.add('reveal');
     }
+    winsEl.textContent = correctGuess;
+    totalEl.textContent = totalGuess;
+    lossesEl.textContent = totalGuess - correctGuess;
 });
 
 guess3.addEventListener('click', () => {
@@ -90,6 +94,9 @@ guess3.addEventListener('click', () => {
     else {
         pearl2.classList.add('reveal');
     }
+    winsEl.textContent = correctGuess;
+    totalEl.textContent = totalGuess;
+    lossesEl.textContent = totalGuess - correctGuess;
 });
 
 function displayShells(userGuess, results) {
@@ -97,8 +104,8 @@ function displayShells(userGuess, results) {
     shell2.classList.remove('reveal');
     shell3.classList.remove('reveal');
     totalGuess++;
-    const correctHidingPlace = document.getElementById('results');
-
+    const correctHidingPlace = document.getElementById('wins');
+console.log(userGuess, results)
     if (userGuess === results) {
         correctGuess++;
         correctHidingPlace.classList.add('reveal');
